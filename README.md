@@ -48,7 +48,11 @@ In your django project settings.py you must set the following options:
 
         ./manage.py migrate admin_ip_whitelist
 
-    4) Optionally set ADMIN_ACCESS_WHITELIST_MESSAGE (default is "You are banned.") to change default message for banned user.
+    5) (Optional) set ADMIN_ACCESS_WHITELIST_MESSAGE (default is "You are banned.") to change default message for banned user.
+	
+	6) (Optional) set ADMIN_ACCESS_WHITELIST_URL_PREFIX (default is 'admin') if you wish to restrict access to access to a path root other than /admin
+	
+	
 
 Issues
 ------
