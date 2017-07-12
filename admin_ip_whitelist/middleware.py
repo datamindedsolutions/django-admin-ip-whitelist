@@ -22,6 +22,7 @@ class AdminAccessIPWhiteListMiddleware(object):
         self.ENABLED = getattr(settings, 'ADMIN_ACCESS_WHITELIST_ENABLED', False)
         self.USE_HTTP_X_FORWARDED_FOR = getattr(settings, 'ADMIN_ACCESS_WHITELIST_USE_HTTP_X_FORWARDED_FOR', False)
         self.ADMIN_ACCESS_WHITELIST_MESSAGE = getattr(settings, 'ADMIN_ACCESS_WHITELIST_MESSAGE', 'You are banned.')
+        self.WHITELIST_URL_PREFIX = getattr(settings, 'ADMIN_ACCESS_WHITELIST_URL_PREFIX', 'admin')
 
         if not self.ENABLED:
             raise MiddlewareNotUsed("django-admin-ip-whitelist is not enabled via settings.py")
@@ -43,7 +44,7 @@ class AdminAccessIPWhiteListMiddleware(object):
         return ip
 
     def process_request(self, request):
-        if not request.path.startswith('/admin'):
+        if not request.path.startswith('/{}'.format(self.WHITELIST_URL_PREFIX)):
             return None
 
         ip = self._get_ip(request)
