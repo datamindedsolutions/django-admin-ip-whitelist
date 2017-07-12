@@ -64,7 +64,7 @@ class MiddlewareTests(TestCase):
             admin_url, REMOTE_ADDR="5.5.5.5",
             HTTP_X_FORWARDED_FOR="1.2.3.4, 4.4.4.4, 3.3.3.3")
         self.assertEquals(response.status_code, 302)  # redirect
-        expected_url = "{}?next={}".format(reverse('admin:login'), admin_url)
+        expected_url = "http://testserver{}?next={}".format(reverse('admin:login'), admin_url)
         self.assertEquals(response.url, expected_url)
 
         # Allowed, If no forwarded address is given, it falls back
@@ -72,7 +72,7 @@ class MiddlewareTests(TestCase):
         response = self.client.get(
             admin_url, REMOTE_ADDR="1.2.3.4")
         self.assertEquals(response.status_code, 302)  # redirect
-        expected_url = "{}?next={}".format(reverse('admin:login'), admin_url)
+        expected_url = "http://testserver{}?next={}".format(reverse('admin:login'), admin_url)
         self.assertEquals(response.url, expected_url)
 
         module_name = 'admin_ip_whitelist.middleware'
@@ -102,7 +102,7 @@ class MiddlewareTests(TestCase):
         # This user is special.
         response = self.client.get(admin_url, REMOTE_ADDR="1.2.3.4")
         self.assertEquals(response.status_code, 302)  # redirect
-        expected_url = "{}?next={}".format(reverse('admin:login'), admin_url)
+        expected_url = "http://testserver{}?next={}".format(reverse('admin:login'), admin_url)
         self.assertEquals(response.url, expected_url)
 
         module_name = 'admin_ip_whitelist.middleware'
