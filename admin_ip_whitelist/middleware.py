@@ -5,14 +5,15 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import MiddlewareNotUsed
 from django.http import HttpResponseForbidden
+from django.utils.deprecation import MiddlewareMixin
 
-from models import DjangoAdminAccessIPWhitelist, ADMIN_ACCESS_WHITELIST_PREFIX
+from .models import DjangoAdminAccessIPWhitelist, ADMIN_ACCESS_WHITELIST_PREFIX
 
 log = logging.getLogger(__name__)
 
 
-class AdminAccessIPWhiteListMiddleware(object):
-    def __init__(self):
+class AdminAccessIPWhiteListMiddleware(MiddlewareMixin):
+    def __init__(self, get_response=None):
         """
         Middleware init is called once per server on startup - do the heavy
         lifting here.
@@ -72,4 +73,3 @@ class AdminAccessIPWhiteListMiddleware(object):
         if is_whitelisted:
             log.debug("/Admin access IP: " + self.WHITELIST_PREFIX + ip)
         return is_whitelisted
-
