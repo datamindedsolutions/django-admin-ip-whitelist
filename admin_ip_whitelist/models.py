@@ -45,7 +45,7 @@ def _update_cache(sender, **kwargs):
             cache.delete(old_cache_key)
 
     cache_key = _generate_cache_key(new_instance)
-    cache.set(cache_key, "1")
+    cache.set(cache_key, "1", timeout=None)
 
 
 def _delete_cache(sender, **kwargs):
